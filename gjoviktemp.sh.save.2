@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Fetch temperature from Gjøvik
+
+# Get current hour
+hour=$(date +"%H":"00")
+first_hour=$(date +"%H":"00" -d '1 hours')
+second_hour=$(date +"%H":"00" -d '2 hours')
+
+# Api url
+api_url="https://api.met.no/weatherapi/locationforecast/2.0/classic?lat=60.795&lon=10.691"
+
+#Get time from
+test=$(curl -s "$api_url" | grep ["$hour" "$first_hour" "$second_hour"] > ja.txt)
+
+
+#Fetch weather data and extract the temperature in Gjøvik
+temperature_gjovik=$(curl -s "$api_url" | grep temperature |  grep -Eo "[-]?[0-9].[0-9]")
+
+echo "Temperature Gjøvik:$temperature_gjovik"
+echo "$test"
+
+echo "$hour, $first_hour, $second_hour, $third_hour"
